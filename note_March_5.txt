@@ -1,0 +1,15 @@
+[Why parallel computing]
+- As microprocessor is scaling slower. In stead of designing and building faster processors, we put multiple processors on a single integrated circuit
+
+
+[Parallel algo]
+- Using parallel algo can massively increases efficiency. A simple addition op done on array (adding all elements of array together)
+	+ Using one core: go through all array resulting in O(N) time
+	+ Using multiple cores: Each core go through a set of numbers, resulting numbers can be divided among cores again to compute
+	and finally combined at master core resulting in O(logN) time -> massive increase
+
+- 2 types of partioning process
+	+ Task parallelism: 1 large problem into multiple functions -> each core handle a different functions that modify the same data set
+	+ Data parallelism: 1 large set of data into smaller data chunk -> each core handle a chunk of data using the same function 
+	+ Data: similar operation - different data (each person grade the entire exam in the exam set)
+	+ Task: similar data - different operation (each person grade a question in the exam in the exam set)
