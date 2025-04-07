@@ -1,6 +1,8 @@
 // Name: Hoang Duong Nguyen
 // id: a1876928
 // Description: The pprogram will print out of place node
+// Note: The array used for testing is right below this line. Modify as you see fit to test the program
+int ARR[4] = {5,3,6,8}; // sample array for testing
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,18 +21,27 @@ int getTargetP(int curr_rank , int max_rank , int direction) {  // A function th
     return target_rank;
 }
 
+int edgeCase(int curr_rank , int max_rank) {   // Resolve edgecase at end and beginning of the circle. Return 0 if not edge case, 1 if at end and -1 if at beginning
+    if(curr_rank == (max_rank - 1) || curr_rank == 0) {
+        return 1;
+
+    } else if(curr_rank == 0) {
+        return -1;
+    }
+
+    return 0;
+}
 
 int main(void) {
     int p_rank;
     int comm_sz;
 
-    int arr[4] = {5,3,6,8}; // sample array for testing
 
     MPI_Init(NULL,NULL);
     MPI_Comm_rank(MPI_COMM_WORLD , &p_rank);
     MPI_Comm_size(MPI_COMM_WORLD , &comm_sz);   // If run with 4 cores then size would be 4
 
-    int node_data = arr[p_rank];
+    int node_data = ARR[p_rank];
 
     int target_R = getTargetP(p_rank , comm_sz , 1);
     int target_L = getTargetP(p_rank , comm_sz , 0);
@@ -48,10 +59,23 @@ int main(void) {
     //Recv from right
     MPI_Recv(&data_R , 1 , MPI_INT , target_R , 1 , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
 
-    if(node_data < data_L || node_data > data_R) {
+
+    //Resolve edge case
+    int edge = edgeCase(p_rank , comm_sz);
+    if(node_data > data_L && edge == 1) {
+        printf("Node %d of %d is fine\n" , p_rank , comm_sz);
+
+    } else if(node_data < data_R && edge == -1) {
+        printf("Node %d of %d is fine\n" , p_rank , comm_sz);
+
+    } else if(edge) {
+        printf("Node %d of %d is out of order\n" , p_rank , comm_sz);
+    }
+
+    if((node_data < data_L || node_data > data_R) && edge == 0) {
         printf("Node %d of %d is out of order\n" , p_rank , comm_sz);
 
-    } else {
+    } else if(edge == 0) {
         printf("Node %d of %d is fine\n" , p_rank , comm_sz);
     }
 
