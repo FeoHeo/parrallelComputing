@@ -32,6 +32,11 @@ int edgeCase(int curr_rank , int max_rank) {   // Resolve edgecase at end and be
     return 0;
 }
 
+void endProcess(int curr_rank) {
+    printf("Process %d has now finished\n" , curr_rank);
+    MPI_Finalize();
+}
+
 int main(void) {
     int p_rank;
     int comm_sz;
@@ -63,23 +68,23 @@ int main(void) {
     //Resolve edge case
     int edge = edgeCase(p_rank , comm_sz);
     if(node_data > data_L && edge == 1) {
-        printf("Node %d of %d is fine\n" , p_rank , comm_sz);
+        printf("Process %d is fine\n" , p_rank);
 
     } else if(node_data < data_R && edge == -1) {
-        printf("Node %d of %d is fine\n" , p_rank , comm_sz);
+        printf("Process %d is fine\n" , p_rank);
 
     } else if(edge) {
-        printf("Node %d of %d is out of order\n" , p_rank , comm_sz);
+        printf("Process %d has at least on number out of order\n" , p_rank);
     }
 
     if((node_data < data_L || node_data > data_R) && edge == 0) {
-        printf("Node %d of %d is out of order\n" , p_rank , comm_sz);
+        printf("Process %d has at least on number out of order\n" , p_rank);
 
     } else if(edge == 0) {
-        printf("Node %d of %d is fine\n" , p_rank , comm_sz);
+        printf("Process %d is fine\n" , p_rank);
     }
 
 
-    MPI_Finalize();
+    endProcess(p_rank);
     return 0;
 }
