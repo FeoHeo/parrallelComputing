@@ -1,4 +1,9 @@
 # parrallelComputing
 
+Running the program:
 
-Git branch containing parrallel computing assignments / notes
+	mpiexec -n <core_num> mvmult
+
+Then input the size for the matrix.
+
+The output 'Elapsed time' shows the execution time (in seconds)

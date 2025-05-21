@@ -1,0 +1,20 @@
+seth@seth-Nitro-AN515-56:~/uniwork/parrallelComputing$ mpiexec -n 1 mvmult
+Enter the number of rows
+1000
+Enter the number of columns
+1000
+Elapsed time = 0.060942
+seth@seth-Nitro-AN515-56:~/uniwork/parrallelComputing$ mpiexec -n 2 mvmult
+Enter the number of rows
+1000
+Enter the number of columns
+1000
+Elapsed time = 0.029736
+seth@seth-Nitro-AN515-56:~/uniwork/parrallelComputing$ mpiexec -n 4 mvmult
+Enter the number of rows
+1000
+Enter the number of columns
+1000
+Elapsed time = 0.021946
+seth@seth-Nitro-AN515-56:~/uniwork/parrallelComputing$ 
+
